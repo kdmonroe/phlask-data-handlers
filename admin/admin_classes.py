@@ -8,9 +8,12 @@ import os
 json_data = None
 
 #----------------------------------------------------------------------------------------------------------------------
+
 #creds for initializing firebase admin
+creds_json = os.path.join(os.path.dirname(__file__), 'phlask.json')
+
 try :
-    with open('phlask.json') as f:
+    with open(creds_json) as f:
         json_data = json.load(f)
 
 # if there is no json file, then this will use the environment variable
