@@ -205,34 +205,6 @@ def analyze_business_hours(df, col):
         for period in periods:
             logging.info(f'  {period}: {business_hours[day][period]}')
 
-
-
-
-def validate_and_log(df, validator, admin_class_name):
-    logging.info("\n\n" + "="*60)
-    logging.info(f"STARTING VALIDATION: {admin_class_name.upper()} DATABASE")
-    logging.info("="*60 + "\n")
-
-    error_dict = get_invalid_data(df, validator)
-    if len(error_dict) == 0:
-        logging.info("\t\tData is valid.")
-    else:
-        logging.info("\t\tData is invalid.")
-        csv_name = f"{admin_class_name.lower()}_schema_errors_{dt.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-        csv_fp = Path(__file__).resolve().parent / "validation_results" / csv_name
-        error_df = pd.DataFrame.from_dict(error_dict, orient='index')
-        error_df.to_csv(csv_fp)
-        logging.info(f"\n\nSchema errors logged to {csv_fp}")
-                
-        for key, value in error_dict.items():
-            logging.info(f"Row {key} Errors: {value}")
-
-        logging.info(f"Total number of rows with errors: {len(error_dict)}")
-
-    logging.info("\n" + "="*60)
-    logging.info(f"FINISHED VALIDATION: {admin_class_name.upper()} DATABASE")
-    logging.info("="*60 + "\n\n")
-
 def main():
     """ validate_db.py
     Entry point for the script. This function initializes the schema validator with a specified schema and
